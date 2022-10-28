@@ -1,8 +1,8 @@
-import re
+from models.Player import Player
 
 
 class Hangman:
-    def __init__(self, error_guessing_allowed: int = 8):
+    def __init__(self, game_master: Player, guesser: Player, error_guessing_allowed: int = 8):
         # Secret word Section
         self.secret_word = None
         self.secret_word_guessing = None
@@ -11,6 +11,10 @@ class Hangman:
         self.error_guessing_remaining = error_guessing_allowed
         self.list_guessing_letters = []
 
+        # init Player
+        self.game_master = game_master
+        self.guesser = guesser
+
         # Other param
         self.regex_pattern = r"[A-Za-z]+$"
 
@@ -18,17 +22,22 @@ class Hangman:
         """Public function: Used for start the Hangman Game"""
 
         # Init the game with the secret word
-        self.__get_secret_word()
+        secret_word = self.game_master.get_secret_word(regex_pattern=self.regex_pattern)
 
-        # print(self.secret_word)
-        # print(self.secret_word_guessing)
+        self.secret_word = secret_word
+        self.secret_word_guessing = "".join(["_" for _ in secret_word])
 
         # While the secret word or life
         while self.secret_word_guessing != self.secret_word and self.error_guessing_remaining > 0:
             print(f"Le mot à deviner : {self.secret_word_guessing}")
             print(f"Vous avez {self.error_guessing_remaining} vie(s)")
 
-            guessing_letter = self.__guessing_letter()
+            guessing_letter = self.guesser.guessing_letter(regex_pattern=self.regex_pattern,
+                                                           list_guessing_letters=self.list_guessing_letters)
+            # Add letter to list of 'already played letter'
+            self.list_guessing_letters.append(guessing_letter)
+
+            # Verify if the letter is in the secret word
             validation_guessing = self.validation_guessing(guessing_letter)
 
             if validation_guessing is not None:
@@ -58,53 +67,3 @@ class Hangman:
             list_letter.insert(index, letter)
 
         self.secret_word_guessing = "".join(list_letter)
-
-    # TODO: Move in another class
-    def __get_secret_word(self) -> None:
-        """Set the secret word for the current game"""
-
-        while not self.secret_word:
-            secret_word = str(input("Votre mot secret : "))
-
-            if len(secret_word) < 5:
-                print("Veuillez choisir un mot de plus de 4 caractères \n")
-            elif len(secret_word) > 25:
-                print("Veuillez choisir un mot de moins de 25 caractères \n")
-            elif re.match(self.regex_pattern, secret_word) is None:
-                print("Veuillez ne mettre que des lettres dans votre mot \n")
-
-            # Set the secret word in the context class
-            else:
-                self.secret_word = secret_word.lower()
-                self.secret_word_guessing = "".join(["_" for _ in secret_word])
-
-    # TODO: Move in another class
-    def __guessing_letter(self) -> str:
-        """Get the letter from the user input, and validate the input"""
-        guessing_letter = None
-
-        while not guessing_letter:
-            guessing_letter_input = str(input("Choisissez une lettre : ")).lower()
-            # Line break
-            print("\n")
-
-            # TODO remove this Dev mode
-            if guessing_letter_input == "exit":
-                self.secret_word_guessing = self.secret_word
-                break
-
-            # Validate data, control => length, pattern (regex) and if the letter has already played
-            if 0 == len(guessing_letter_input) or len(guessing_letter_input) > 1:
-                print("Veuillez ne choisir qu'une lettre ! [a, b, c, d, ...]")
-            elif re.match(self.regex_pattern, guessing_letter_input) is None:
-                print("Veuillez choisir une lettre !")
-            elif guessing_letter_input in self.list_guessing_letters:
-                print("Veuillez choisir une lettre que vous n'avez pas déjà sélectionnée !")
-                print(f"Voici un rappel des lettre que vous avez joué : {self.list_guessing_letters}")
-
-            # Save guessing letter in context class, and return guessing letter
-            else:
-                self.list_guessing_letters.append(guessing_letter_input)
-                guessing_letter = guessing_letter_input
-
-        return guessing_letter
