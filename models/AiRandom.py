@@ -10,7 +10,7 @@ class AiRandom(Player):
     def __init__(self, list_secret_words=None):
         super(AiRandom, self).__init__("Siri")
 
-        self.list_secret_words = list_secret_words if list_secret_words is None else list_secret_words_default
+        self.list_secret_words = list_secret_words if list_secret_words is not None else list_secret_words_default
         self.list_letters = [letter for letter in ascii_lowercase]
 
     def get_secret_word(self, regex_pattern: str) -> str:
