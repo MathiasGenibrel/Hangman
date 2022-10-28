@@ -1,14 +1,16 @@
 import re
-from models.Player import Player
+from models.abstract.Player import Player
 
 
 class Human(Player):
+    """
+    This class allow a human player to play the Hangman game
+    """
     def __init__(self, username):
         super(Human, self).__init__(username)
 
     @staticmethod
     def get_secret_word(regex_pattern: str) -> str:
-        """Set the secret word for the current game"""
         secret_word = None
 
         while not secret_word:
@@ -27,7 +29,6 @@ class Human(Player):
 
     @staticmethod
     def guessing_letter(list_guessing_letters: list[str], regex_pattern: str) -> str:
-        """Get the letter from the user input, and validate the input"""
         guessing_letter = None
 
         while guessing_letter is None:

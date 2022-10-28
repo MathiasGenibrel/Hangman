@@ -1,22 +1,17 @@
 from random import choice
 from string import ascii_lowercase
 
-from models.Player import Player
-
-list_secret_words_default = ["vite", "yoga", "absorbez", "denaturalisassions"]
+from models.abstract.AI import AI
 
 
-class AiRandom(Player):
+class AiRandom(AI):
+    """
+        This Player is an AI, it plays randomly
+    """
     def __init__(self, list_secret_words=None):
-        super(AiRandom, self).__init__("Siri")
+        super(AiRandom, self).__init__()
 
-        self.list_secret_words = list_secret_words if list_secret_words is not None else list_secret_words_default
         self.list_letters = [letter for letter in ascii_lowercase]
-
-    def get_secret_word(self, regex_pattern: str) -> str:
-        secret_word = choice(self.list_secret_words)
-
-        return secret_word
 
     def guessing_letter(self, list_guessing_letters: list[str], regex_pattern: str) -> str:
         guessing_letter = None
