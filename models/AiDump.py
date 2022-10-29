@@ -1,8 +1,6 @@
 from models.abstract.AI import AI
 from models.LetterUsageSoup import LetterUsageSoup
 
-list_best_letter = ["e", "s", "a", "r", "t", "i", "n", "u", "l", "o", "d", "c"]
-
 
 class AiDump(AI):
     def __init__(self):

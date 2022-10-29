@@ -59,6 +59,7 @@ class Hangman:
             print(f"Felicitation vous avez gagné, le mot à deviner était bien \"{self.secret_word}\"")
         else:
             print("Vous avez perdu #HANG-MAN")
+            print(f"Vous avez jouez ces lettres : {self.list_guessing_letters}")
 
     def __validation_guessing(self, guessing_letter) -> list[tuple[int, str]] or None:
         """
