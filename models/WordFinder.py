@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 class WordFinder:
-    def __init__(self, word_check: int = 100):
+    def __init__(self, word_check: int = 1000):
         # The data is provided from this website -> "https://scrabbledb.com/"
         # The param -> q is usage for pass the letter is in the secret word.
         # Use r param to change the size of the word table
