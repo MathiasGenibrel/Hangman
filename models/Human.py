@@ -6,6 +6,7 @@ class Human(Player):
     """
     This class allow a human player to play the Hangman game
     """
+
     def __init__(self, username):
         super(Human, self).__init__(username)
 
@@ -28,7 +29,7 @@ class Human(Player):
         return secret_word
 
     @staticmethod
-    def guessing_letter(list_guessing_letters: list[str], regex_pattern: str) -> str:
+    def guessing_letter(list_guessing_letters: list[str], regex_pattern: str, secret_word_guessing=None) -> str:
         guessing_letter = None
 
         while guessing_letter is None:

@@ -45,7 +45,9 @@ class Hangman:
             print(f"Vous avez {self.error_guessing_remaining} vie(s)")
 
             guessing_letter = self.guesser.guessing_letter(regex_pattern=self.regex_pattern,
-                                                           list_guessing_letters=self.list_guessing_letters)
+                                                           list_guessing_letters=self.list_guessing_letters,
+                                                           secret_word_guessing=self.secret_word_guessing
+                                                           )
             # Add letter to list of 'already played letter'
             self.list_guessing_letters.append(guessing_letter)
 

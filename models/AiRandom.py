@@ -8,12 +8,13 @@ class AiRandom(AI):
     """
         This Player is an AI, it plays randomly
     """
+
     def __init__(self, list_secret_words=None):
         super(AiRandom, self).__init__()
 
         self.list_letters = [letter for letter in ascii_lowercase]
 
-    def guessing_letter(self, list_guessing_letters: list[str], regex_pattern: str) -> str:
+    def guessing_letter(self, list_guessing_letters: list[str], regex_pattern: str, secret_word_guessing=None) -> str:
         guessing_letter = None
 
         while guessing_letter is None:

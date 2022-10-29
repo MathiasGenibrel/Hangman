@@ -10,6 +10,6 @@ class AiDump(AI):
 
         self.list_best_letter = letter_usage.get_most_frequency_letters()
 
-    def guessing_letter(self, list_guessing_letters: list[str], regex_pattern: str) -> str:
+    def guessing_letter(self, list_guessing_letters: list[str], regex_pattern: str, secret_word_guessing=None) -> str:
         # Return different letter each time.
         return self.list_best_letter[len(list_guessing_letters)]

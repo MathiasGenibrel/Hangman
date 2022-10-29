@@ -18,12 +18,13 @@ class Player:
         pass
 
     @staticmethod
-    def guessing_letter(list_guessing_letters: list[str], regex_pattern: str) -> str:
+    def guessing_letter(list_guessing_letters: list[str], regex_pattern: str, secret_word_guessing=None) -> str:
         """
         Getting a letter from Human or AI.
 
         :param list[str] list_guessing_letters: List of all letters already played by the player
         :param str regex_pattern: Pattern to check if the user inputs are good or not
+        :param str secret_word_guessing: The hidden secret word, which must be discovered by the player
         :return: Letter selected by Player (Human | AI)
         """
         pass

@@ -30,7 +30,7 @@ class WordFinder:
 
         # Try if we can request get the source code on the context url.
         try:
-            words_list = self.__get_words_list(6)
+            words_list = self.__get_words_list(length_secret_word)
 
             return words_list
         except ConnectionError as error:
@@ -61,7 +61,7 @@ class WordFinder:
 
         # Get all words equal to the same length of secret word, in the web page
         words = [
-            word.text
+            word.text.lower()
             for word in soup.find_all("a", {"id": "wordLink"})
             if len(word.text) == length_secret_word
         ]
