@@ -34,8 +34,6 @@ class AiSmart(AI):
             else:
                 guessing_letter = self.__get_letter_probability(words_list, list_guessing_letters)
 
-        print(guessing_letter)
-
         return guessing_letter
 
     def __get_letter_probability(self, words_list: list[str], list_guessing_letters: list[str]) -> str:
