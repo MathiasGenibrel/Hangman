@@ -1,5 +1,6 @@
 from models.abstract.Player import Player
 from unidecode import unidecode
+from models.Human import Human
 
 
 class Hangman:
@@ -42,8 +43,8 @@ class Hangman:
 
         # While the secret word or life
         while self.secret_word_guessing != self.secret_word and self.error_guessing_remaining > 0:
-            print(f"Le mot à deviner : {self.secret_word_guessing}")
-            print(f"Vous avez {self.error_guessing_remaining} vie(s)")
+            self.__print_info_player(f"Le mot à deviner : {self.secret_word_guessing}")
+            self.__print_info_player(f"Vous avez {self.error_guessing_remaining} vie(s)")
 
             guessing_letter = self.guesser.guessing_letter(regex_pattern=self.regex_pattern,
                                                            list_guessing_letters=self.list_guessing_letters,
@@ -59,10 +60,12 @@ class Hangman:
                 self.__update_guessing_word(validation_guessing)
 
         if self.secret_word_guessing == self.secret_word:
-            print(f"Felicitation vous avez gagné, le mot à deviner était bien \"{self.secret_word}\"")
+            self.__print_info_player(f"Felicitation vous avez gagné, le mot à deviner était bien \"{self.secret_word}\"")
+            return True
         else:
-            print("Vous avez perdu #HANG-MAN")
-            print(f"Vous avez jouez ces lettres : {self.list_guessing_letters}")
+            self.__print_info_player("Vous avez perdu #HANG-MAN")
+            self.__print_info_player(f"Vous avez jouez ces lettres : {self.list_guessing_letters}")
+            return False
 
     def __validation_guessing(self, guessing_letter) -> list[tuple[int, str]] or None:
         """
@@ -95,3 +98,7 @@ class Hangman:
             list_letter.insert(index, letter)
 
         self.secret_word_guessing = "".join(list_letter)
+
+    def __print_info_player(self, message):
+        if isinstance(self.guesser, Human) or isinstance(self.game_master, Human):
+            print(message)

@@ -39,6 +39,12 @@ class WordListGenerator:
             print("\nFile Created ! 🎉")
             print(f"The file was named : '{self.filename}.{self.file_format}'")
 
+    def get_data(self):
+        with open(f"{self.filename}.{self.file_format}", "r") as file:
+            json_data = json.load(file)
+
+        return json_data["words"]
+
     # Refactor this into 1 parent class (this method was used in 3 différent files)
     @staticmethod
     def __get_source_code(url, params=None):

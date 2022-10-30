@@ -9,7 +9,7 @@ class AiRandom(AI):
         This Player is an AI, it plays randomly
     """
 
-    def __init__(self, list_secret_words=None):
+    def __init__(self, secret_word=None):
         super(AiRandom, self).__init__()
 
         self.list_letters = [letter for letter in ascii_lowercase]
@@ -20,11 +20,7 @@ class AiRandom(AI):
         while guessing_letter is None:
             guessing_letter_choice = choice(self.list_letters)
 
-            if guessing_letter_choice in list_guessing_letters:
-                print("Veuillez choisir une lettre que vous n'avez pas déjà sélectionnée !")
-                print(f"Voici un rappel des lettre que vous avez joué : {list_guessing_letters}")
-
-            else:
+            if guessing_letter_choice not in list_guessing_letters:
                 guessing_letter = guessing_letter_choice
 
         return guessing_letter

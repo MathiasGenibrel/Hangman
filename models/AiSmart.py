@@ -1,5 +1,3 @@
-import time
-
 from models.abstract.AI import AI
 from models.LetterUsageSoup import LetterUsageSoup
 from models.WordFinder import WordFinder
@@ -16,8 +14,6 @@ class AiSmart(AI):
 
     def guessing_letter(self, list_guessing_letters: list[str], regex_pattern: str, secret_word_guessing=None) -> str:
         letters_found = [letter for letter in secret_word_guessing if letter != "_"]
-        # Sleeping time to not get ban
-        time.sleep(0.25)
 
         if len(list_guessing_letters) == 0 or len(letters_found) == 0:
             guessing_letter = self.list_best_letter[len(list_guessing_letters)]
