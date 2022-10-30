@@ -110,8 +110,8 @@ class AiSmart(AI):
         if first_value == second_value:
             # Get dictionary to represent value of letter by frequency in current language.
             best_letter_value = {
-                letter: value for value, letter in
-                enumerate(sorted(self.list_best_letter, reverse=True))
+                letter: len(self.list_best_letter) - value
+                for value, letter in enumerate(self.list_best_letter)
             }
 
             for letter, value in sorted_by_value.items():
