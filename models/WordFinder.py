@@ -15,7 +15,9 @@ class WordFinder:
             "q": str()
         }
 
-        # TODO: add cache system
+        # Caching data
+        self.previous_letters_found = []
+        self.previous_word_list = []
 
     def get_list_word(self, letter_found: list[str], length_secret_word: int) -> list[str] or str:
         """
@@ -25,14 +27,19 @@ class WordFinder:
         :return: Return a list with all words found, or return a string with an error message.
         """
 
+        if self.previous_letters_found == letter_found:
+            return self.previous_word_list
+
         # Update the query param, for search word, cannot be None and the max length is 12.
         self.params["q"] = self.__get_global_letters(letter_found, length_secret_word)
 
         # Try if we can request get the source code on the context url.
         try:
-            words_list = self.__get_words_list(length_secret_word)
+            # Update previous word list and previous letter found, for caching result for next request
+            self.previous_word_list = self.__get_words_list(length_secret_word)
+            self.previous_letters_found = letter_found
 
-            return words_list
+            return self.previous_word_list
         except ConnectionError as error:
             # Return a Message Error (only catch ConnectionError)
             return f"Connection error : {error}"
