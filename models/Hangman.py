@@ -1,4 +1,5 @@
 from models.abstract.Player import Player
+from unidecode import unidecode
 
 
 class Hangman:
@@ -25,7 +26,7 @@ class Hangman:
         self.guesser = guesser
 
         # Other param
-        self.regex_pattern = r"[A-Za-z]+$"
+        self.regex_pattern = r"[A-Za-zÀ-ÿ]+$"
 
     def start_game(self):
         """
@@ -74,7 +75,7 @@ class Hangman:
         all_secret_letter = [
             (index, letter)
             for index, letter in enumerate(self.secret_word)
-            if letter == guessing_letter
+            if unidecode(letter) == guessing_letter
         ]
 
         if len(all_secret_letter) > 0:
