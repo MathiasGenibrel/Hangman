@@ -20,7 +20,7 @@ class Human(Player):
             if len(secret_word_input) < 4:
                 print("Veuillez choisir un mot de plus de 4 caractères \n")
             elif len(secret_word_input) > 12:
-                print("Veuillez choisir un mot de moins de 25 caractères \n")
+                print("Veuillez choisir un mot de moins de 12 caractères \n")
             elif re.match(regex_pattern, secret_word_input) is None:
                 print("Veuillez mettre que des lettres dans votre mot \n")
             else:

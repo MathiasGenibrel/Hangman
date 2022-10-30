@@ -1,8 +1,4 @@
-from random import choice
-
 from models.abstract.Player import Player
-
-list_secret_words_default = ["vite", "yoga", "absorbez", "denaturalisassions"]
 
 
 class AI(Player):
@@ -12,12 +8,12 @@ class AI(Player):
 
         This class has a method so that the AI offers the player to guess the secret word.
     """
+
     def __init__(self, secret_word=None):
         # Give a name to AI
         super(AI, self).__init__("Siri")
 
         # Get a list of different secret_word
-        # TODO: Change this by a method get, a word from https://www.listesdemots.net/
         self.secret_word = secret_word
 
     def get_secret_word(self, regex_pattern: str) -> str:

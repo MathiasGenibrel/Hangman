@@ -40,7 +40,9 @@ for index in range(len(words_list)):
     artificial_intelligence_result["AiSmart"].append(Hangman(game_master, ai_smart).start_game())
     print("Done ✅")
 
-print({
+ai_statistics = {
     ai: "{:.2f}%".format(round(result.count(1) / len(result) * 100))
     for ai, result in artificial_intelligence_result.items()
-})
+}
+
+print(ai_statistics)
