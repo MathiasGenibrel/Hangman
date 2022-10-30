@@ -26,17 +26,19 @@ class AiSmart(AI):
                 letter_found=letters_found,
                 length_secret_word=len(secret_word_guessing)
             )
-            clean_words_list = self.remove_incorrect_words(words_list, secret_word_guessing)
+            clean_words_list = self.__remove_incorrect_words(words_list, secret_word_guessing)
 
             if len(clean_words_list) > 0:
-                guessing_letter = self.get_letter_probability(clean_words_list, list_guessing_letters)
+                guessing_letter = self.__get_letter_probability(clean_words_list, list_guessing_letters)
             # If no words match with the letter position of our secret_word, user basic words_list
             else:
-                guessing_letter = self.get_letter_probability(words_list, list_guessing_letters)
+                guessing_letter = self.__get_letter_probability(words_list, list_guessing_letters)
+
+        print(guessing_letter)
 
         return guessing_letter
 
-    def get_letter_probability(self, words_list: list[str], list_guessing_letters: list[str]) -> str:
+    def __get_letter_probability(self, words_list: list[str], list_guessing_letters: list[str]) -> str:
         """
         Get the probability of each letter that could potentially be in the secret word.\n
 
@@ -54,8 +56,8 @@ class AiSmart(AI):
 
         count_letter = {letter: all_letter.count(letter) for letter in all_letter}
 
-        # Sorted the dictionary in descending order
-        sorted_count_letter = dict(sorted(count_letter.items(), key=lambda item: item[1], reverse=True))
+        # The dictionary that contains the letters with the highest probability rate.
+        sorted_count_letter = self.__get_probability_dictionary(count_letter)
 
         # If the dictionary is empty, we return a list based on list with high frequency letters
         if len(sorted_count_letter) == 0:
@@ -65,7 +67,7 @@ class AiSmart(AI):
         return [letter for letter in sorted_count_letter][0]
 
     @staticmethod
-    def remove_incorrect_words(words_list, secret_word_guessing) -> list[str]:
+    def __remove_incorrect_words(words_list, secret_word_guessing) -> list[str]:
         """
         Remove words not match with the position of letter in the secret word.
         :param words_list: List of all the words that can potentially be the secret word
@@ -90,3 +92,39 @@ class AiSmart(AI):
                 list_correct_potential_word.append(word)
 
         return list_correct_potential_word
+
+    def __get_probability_dictionary(self, dictionary):
+        """
+        Get dictionary with the highest probability letter
+        :param dictionary: dictionary generate with list of word (scrapping)
+        :return: dictionary with the highest probability letter
+        """
+        # Sorted the dictionary in descending order
+        sorted_by_value = self.__sort_dictionary_by_value(dictionary)
+
+        if len(sorted_by_value) <= 1:
+            return sorted_by_value
+
+        # Retrieves the first two elements, in order to compare them
+        first_value = list(sorted_by_value.values())[0]
+        second_value = list(sorted_by_value.values())[1]
+
+        if first_value == second_value:
+            # Get dictionary to represent value of letter by frequency in current language.
+            best_letter_value = {
+                letter: value for value, letter in
+                enumerate(sorted(self.list_best_letter, reverse=True))
+            }
+
+            for letter, value in sorted_by_value.items():
+                if value == first_value and letter in self.list_best_letter:
+                    # Update the value and sort the dictionary again
+                    sorted_by_value.update({letter: value + best_letter_value[letter]})
+                    sorted_by_value = self.__sort_dictionary_by_value(sorted_by_value)
+
+        # Return the dictionary without equality.
+        return sorted_by_value
+
+    @staticmethod
+    def __sort_dictionary_by_value(dictionary):
+        return dict(sorted(dictionary.items(), key=lambda item: item[1], reverse=True))
